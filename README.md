@@ -22,6 +22,8 @@ Este projeto consiste em um <b>portfólio pessoal</b> desenvolvido durante o Lab
 
 ## 🖼️ Wireframes
 <div align="center">
+  <b>Link para o Figma: https://www.figma.com/design/igj4cgTh034DM4c3wRSSeI/Lab01---DesenvSoft?node-id=0-1&t=z3NV72J8YuT2g4mX-1</b>
+  
 <img width="512" height="287" alt="image" src="https://github.com/user-attachments/assets/9d883e22-64b0-4c52-82e1-363f0161bb22" />
 
 <img width="512" height="287" alt="image" src="https://github.com/user-attachments/assets/afd8692a-ca98-4cc2-af3e-1fa3263de92a" />
