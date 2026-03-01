@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import profileImg from './assets/img/pfp.JPEG'
 import {
   Github,
   User,
@@ -9,242 +10,624 @@ import {
   Instagram,
   Linkedin,
   ImageIcon,
+  Menu,
+  X,
+  Loader2,
 } from 'lucide-react'
 
-// Data
-
-const NAV_LINKS = [
-  { label: 'Projects',   Icon: Monitor,   href: '#projects'    },
-  { label: 'About',      Icon: User,      href: '#about'       },
-  { label: 'Contacts',   Icon: Phone,     href: '#contacts'    },
-  { label: 'Experience', Icon: Briefcase, href: '#experience'  },
-]
-
-const PROJECTS = [
-  {
-    title: 'Project Title',
-    tags: ['HTML', 'JS', 'CSS'],
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
-    github: '#',
-  },
-  {
-    title: 'Project Title',
-    tags: ['Java', 'Spring', 'MySQL'],
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
-    github: '#',
-  },
-  {
-    title: 'Project Title',
-    tags: ['React', 'Node.js', 'PostgreSQL'],
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
-    github: '#',
-  },
-  {
-    title: 'Project Title',
-    tags: ['TypeScript', 'Next.js', 'Tailwind'],
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
-    github: '#',
-  },
-]
-
-const EXPERIENCES = [
-  {
-    company: 'Company Name',
-    period: 'Employment period',
-    title: 'Job Title',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex odit atque accusantium, dolorem aliquid hic doloribus veritatis tempore quidem provident voluptate ipsa, aut possimus ad suscipit. Quasi nostrum saepe explicabo, iste illo maxime recusandae asperiores eos maiores autem consequuntur nam!',
-  },
-  {
-    company: 'Company Name',
-    period: 'Employment period',
-    title: 'Job Title',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex odit atque accusantium, dolorem aliquid hic doloribus veritatis tempore quidem provident voluptate ipsa, aut possimus ad suscipit. Quasi nostrum saepe explicabo, iste illo maxime recusandae asperiores eos maiores autem consequuntur nam!',
-  },
-]
-
+// ─── Constants ───────────────────────────────────────────────────────────────
 
 const GREEN = '#A3C552'
+const BLUE  = '#2323C8'
 
+// ─── Translations ─────────────────────────────────────────────────────────────
 
-const gridBg = {
-  backgroundImage:
-    'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)',
-  backgroundSize: '36px 36px',
+const TRANSLATIONS = {
+  en: {
+    nav: {
+      projects: 'Projects',
+      about: 'About',
+      contacts: 'Contacts',
+      experience: 'Experience',
+    },
+    footer: '© 2026 Bernardo Gomes. All rights reserved.',
+    about: {
+      heroTitle: 'Software\nEngineer.',
+      heroSub:
+        'I build scalable software solutions and manage complex projects across multilingual environments.',
+      stat1:
+        'Skilled in JavaScript, C, HTML/CSS and data analysis tools (SPSS, Excel, Qualtrics).',
+      stat2:
+        'Experience managing multilingual research projects, ensuring quality and deadline compliance.',
+      title: 'About me',
+      bio1:
+        'Software Engineering undergraduate with a solid background in Project Management and Programming within the Market Research industry. Experienced in managing multiple simultaneous projects in multilingual environments (English and Spanish), ensuring deadlines and quality standards are consistently met.',
+      bio2:
+        "Currently pursuing a Bachelor's degree in Software Engineering at PUC Minas (expected December 2027). Skilled in JavaScript, C, HTML, and CSS, with hands-on expertise in data analysis tools (SPSS, Excel), research platforms (Qualtrics), and process automation — bringing both technical and managerial perspectives to every project.",
+      hobbiesTitle: 'Hobbies and interests',
+      hobbiesText:
+        'Outside the development environment, I pursue an active lifestyle connected with the world. I am a big sports enthusiast, especially competitive ones, where I find the challenge and discipline I also apply in my career. When I want to relax, I like to spend time with friends, play video games, or listen to music throughout the day. I am also passionate about traveling and discovering new cultures, always seeking experiences that broaden my worldview. On the creative side, I keep exploring the possibilities of Artificial Intelligence, combining technology and innovation in an organic way.',
+    },
+    projects: {
+      title: 'My Projects',
+      loadMore: 'Load more...',
+    },
+    experience: {
+      title: 'Experience',
+    },
+    contact: {
+      title: 'Contact Me',
+      description:
+        "Feel free to reach out! Whether it's a project opportunity, a collaboration idea, or just a conversation about tech and research — I'd love to hear from you.",
+      name: 'Name',
+      email: 'Email',
+      subject: 'Subject',
+      message: 'Message',
+      send: 'Send',
+      sending: 'Sending...',
+      errors: {
+        nameRequired: 'Name is required.',
+        emailRequired: 'Email is required.',
+        emailInvalid: 'Please enter a valid email.',
+        subjectRequired: 'Subject is required.',
+        messageRequired: 'Message is required.',
+      },
+    },
+    projectData: [
+      {
+        title: 'Project Title',
+        year: '2025',
+        category: 'Frontend',
+        tags: ['HTML', 'JS', 'CSS'],
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
+        github: 'https://github.com',
+      },
+      {
+        title: 'Project Title',
+        year: '2024',
+        category: 'Backend',
+        tags: ['Java', 'Spring', 'MySQL'],
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
+        github: 'https://github.com',
+      },
+      {
+        title: 'Project Title',
+        year: '2024',
+        category: 'Fullstack',
+        tags: ['React', 'Node.js', 'PostgreSQL'],
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
+        github: 'https://github.com',
+      },
+      {
+        title: 'Project Title',
+        year: '2023',
+        category: 'Frontend',
+        tags: ['TypeScript', 'Next.js', 'Tailwind'],
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
+        github: 'https://github.com',
+      },
+    ],
+    experienceData: [
+      {
+        company: 'Offerwise',
+        period: 'May 2025 – Present',
+        title: 'Programming & Project Management Intern',
+        description:
+          'Managed the lifecycle of multiple simultaneous market research projects, ensuring quality and deadline compliance. Maintained direct communication with national and international clients for expectation alignment and status reporting. Developed complex survey logic on platforms such as Qualtrics. Handled cross-quota data analysis using SPSS and Excel. Worked on projects conducted entirely in English (Advanced) and Spanish (Intermediate).',
+      },
+    ],
+  },
+  pt: {
+    nav: {
+      projects: 'Projetos',
+      about: 'Sobre',
+      contacts: 'Contato',
+      experience: 'Experiência',
+    },
+    footer: '© 2026 Bernardo Gomes. Todos os direitos reservados.',
+    about: {
+      heroTitle: 'Engenheiro\nde Software.',
+      heroSub:
+        'Desenvolvo soluções de software escaláveis e gerencio projetos complexos em ambientes multilíngues.',
+      stat1:
+        'Habilidades em JavaScript, C, HTML/CSS e ferramentas de análise de dados (SPSS, Excel, Qualtrics).',
+      stat2:
+        'Experiência em gestão de projetos de pesquisa multilíngues, garantindo qualidade e prazos.',
+      title: 'Sobre mim',
+      bio1:
+        'Graduando em Engenharia de Software com atuação sólida em Gestão de Projetos e Programação na área de Pesquisa de Mercado. Experiência na administração de múltiplos projetos simultâneos em ambientes multilíngues (Inglês e Espanhol), garantindo prazos e padrões de qualidade.',
+      bio2:
+        'Cursando Bacharelado em Engenharia de Software na PUC Minas, com previsão de formatura em dezembro de 2027. Habilidades em JavaScript, C, HTML e CSS, com domínio em ferramentas de análise de dados (SPSS, Excel), plataformas de pesquisa (Qualtrics) e automação de processos.',
+      hobbiesTitle: 'Hobbies e interesses',
+      hobbiesText:
+        'Fora do ambiente de desenvolvimento, busco um estilo de vida ativo e conectado com o mundo. Sou um grande entusiasta de esportes, especialmente os competitivos, onde encontro o desafio e a disciplina que também aplico na minha carreira. Quando quero relaxar, gosto de passar tempo com meus amigos, jogar videogame ou escutar música para acompanhar o dia. Além disso, sou apaixonado por viajar e conhecer novas culturas, sempre buscando experiências que ampliem minha visão de mundo. No lado criativo, continuo explorando as possibilidades da Inteligência Artificial, unindo tecnologia e inovação de forma espontânea.',
+    },
+    projects: {
+      title: 'Meus Projetos',
+      loadMore: 'Carregar mais...',
+    },
+    experience: {
+      title: 'Experiência',
+    },
+    contact: {
+      title: 'Contato',
+      description:
+        'Fique à vontade para entrar em contato! Seja para uma oportunidade de projeto, colaboração ou apenas para conversar sobre tecnologia e pesquisa — adoraria ouvir você.',
+      name: 'Nome',
+      email: 'E-mail',
+      subject: 'Assunto',
+      message: 'Mensagem',
+      send: 'Enviar',
+      sending: 'Enviando...',
+      errors: {
+        nameRequired: 'O nome é obrigatório.',
+        emailRequired: 'O e-mail é obrigatório.',
+        emailInvalid: 'Insira um e-mail válido.',
+        subjectRequired: 'O assunto é obrigatório.',
+        messageRequired: 'A mensagem é obrigatória.',
+      },
+    },
+    projectData: [
+      {
+        title: 'Título do Projeto',
+        year: '2025',
+        category: 'Frontend',
+        tags: ['HTML', 'JS', 'CSS'],
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
+        github: 'https://github.com',
+      },
+      {
+        title: 'Título do Projeto',
+        year: '2024',
+        category: 'Backend',
+        tags: ['Java', 'Spring', 'MySQL'],
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
+        github: 'https://github.com',
+      },
+      {
+        title: 'Título do Projeto',
+        year: '2024',
+        category: 'Fullstack',
+        tags: ['React', 'Node.js', 'PostgreSQL'],
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
+        github: 'https://github.com',
+      },
+      {
+        title: 'Título do Projeto',
+        year: '2023',
+        category: 'Frontend',
+        tags: ['TypeScript', 'Next.js', 'Tailwind'],
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste praesentium provident repudiandae eius ipsa quos perferendis libero fugit minima.',
+        github: 'https://github.com',
+      },
+    ],
+    experienceData: [
+      {
+        company: 'Offerwise',
+        period: 'Mai. 2025 – Presente',
+        title: 'Estagiário em Programação e Gestão de Projetos',
+        description:
+          'Administração do ciclo de vida de múltiplos projetos simultâneos de pesquisa de mercado, garantindo cumprimento de cronogramas e requisitos de qualidade. Comunicação direta com clientes nacionais e internacionais para alinhamento de expectativas e apresentação de status reports. Desenvolvimento e lógica de questionários em plataformas como Qualtrics. Manipulação de bases de dados complexas e controle de cotas cruzadas utilizando SPSS e Excel. Atuação em projetos em Inglês (Avançado) e Espanhol (Intermediário).',
+      },
+    ],
+  },
 }
 
-// Navbar
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function Navbar() {
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// ─── Decorative SVG Helpers ───────────────────────────────────────────────────
+
+function DotGrid({ cols = 8, rows = 4, gap = 18, r = 2.5, color }) {
+  const w = (cols - 1) * gap + r * 2
+  const h = (rows - 1) * gap + r * 2
+  const dots = []
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      dots.push(
+        <circle
+          key={`${row}-${col}`}
+          cx={col * gap + r}
+          cy={row * gap + r}
+          r={r}
+          fill={color}
+        />
+      )
+    }
+  }
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 rounded-b-3xl"
-      style={{ backgroundColor: GREEN }}
-    >
-      <span className="text-black font-bold text-xl tracking-wide">devname</span>
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true">
+      {dots}
+    </svg>
+  )
+}
 
-      <ul className="flex items-center gap-8">
-        {NAV_LINKS.map(({ label, Icon, href }) => (
-          <li key={label}>
-            <a
-              href={href}
-              className="flex flex-col items-center gap-1 text-black hover:opacity-60 transition-opacity"
-            >
-              <Icon size={22} strokeWidth={1.8} />
-              <span className="text-xs font-medium">{label}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+function StairShape({ color, size = 48, steps = 4, direction = 'down-right' }) {
+  const step = size / steps
+  const lines = []
+  for (let i = 0; i < steps; i++) {
+    if (direction === 'down-right') {
+      // horizontal then vertical going down-right
+      lines.push(
+        <line key={`h${i}`} x1={i * step} y1={i * step} x2={(i + 1) * step} y2={i * step} stroke={color} strokeWidth="2.5" strokeLinecap="square" />,
+        <line key={`v${i}`} x1={(i + 1) * step} y1={i * step} x2={(i + 1) * step} y2={(i + 1) * step} stroke={color} strokeWidth="2.5" strokeLinecap="square" />
+      )
+    } else {
+      lines.push(
+        <line key={`h${i}`} x1={size - i * step} y1={i * step} x2={size - (i + 1) * step} y2={i * step} stroke={color} strokeWidth="2.5" strokeLinecap="square" />,
+        <line key={`v${i}`} x1={size - (i + 1) * step} y1={i * step} x2={size - (i + 1) * step} y2={(i + 1) * step} stroke={color} strokeWidth="2.5" strokeLinecap="square" />
+      )
+    }
+  }
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true" overflow="visible">
+      {lines}
+    </svg>
+  )
+}
+
+function Squiggle({ color, width = 48 }) {
+  return (
+    <svg width={width} height="20" viewBox={`0 0 ${width} 20`} aria-hidden="true">
+      <path
+        d={`M0 10 Q${width * 0.25} 0 ${width * 0.5} 10 Q${width * 0.75} 20 ${width} 10`}
+        fill="none"
+        stroke={color}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+// ─── Navbar ──────────────────────────────────────────────────────────────────
+
+function Navbar({ lang, onToggleLang }) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const t = TRANSLATIONS[lang].nav
+
+  const NAV_LINKS = [
+    { label: t.projects,   Icon: Monitor,   href: '#projects'   },
+    { label: t.about,      Icon: User,      href: '#about'      },
+    { label: t.contacts,   Icon: Phone,     href: '#contacts'   },
+    { label: t.experience, Icon: Briefcase, href: '#experience' },
+  ]
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: BLUE }}>
+      <div className="flex items-center justify-between px-6 sm:px-10 py-4">
+        {/* Logo */}
+        <a href="#about" className="font-extrabold text-xl tracking-tight select-none" style={{ color: GREEN }}>
+          Bernardo Gomes
+        </a>
+
+        {/* Desktop links */}
+        <ul className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map(({ label, Icon, href }) => (
+            <li key={label}>
+              <a
+                href={href}
+                className="flex flex-col items-center gap-1 text-white hover:opacity-70 transition-opacity text-xs font-medium"
+              >
+                <Icon size={18} strokeWidth={1.8} />
+                <span>{label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* Lang toggle + burger */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onToggleLang}
+            className="font-bold text-xs border-2 rounded-full px-3 py-1 transition-colors"
+            style={{ borderColor: GREEN, color: GREEN }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = GREEN; e.currentTarget.style.color = '#000' }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = GREEN }}
+            aria-label="Toggle language"
+          >
+            {lang === 'en' ? 'PT' : 'EN'}
+          </button>
+          <button
+            className="md:hidden text-white hover:opacity-70 transition-opacity"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <div className="md:hidden border-t pb-3" style={{ borderColor: 'rgba(163,197,82,0.3)' }}>
+          <ul className="flex flex-col">
+            {NAV_LINKS.map(({ label, Icon, href }) => (
+              <li key={label}>
+                <a
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-3 px-6 py-3 text-white hover:opacity-70 transition-opacity"
+                >
+                  <Icon size={18} strokeWidth={1.8} />
+                  <span className="text-sm font-medium">{label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </nav>
   )
 }
 
-// Footer
+// ─── Footer ──────────────────────────────────────────────────────────────────
 
-function Footer() {
+function Footer({ lang }) {
   return (
-    <footer
-      className="flex items-center px-10 py-5 rounded-t-3xl mt-16"
-      style={{ backgroundColor: GREEN }}
-    >
-      <a href="#" aria-label="GitHub" className="text-black hover:opacity-60 transition-opacity">
-        <Github size={28} strokeWidth={1.8} />
+    <footer className="flex items-center px-10 py-6 mt-0" style={{ backgroundColor: GREEN }}>
+      <a
+        href="https://github.com/bernardogomes25"
+        aria-label="GitHub"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-black hover:opacity-60 transition-opacity"
+      >
+        <Github size={26} strokeWidth={1.8} />
       </a>
-      <p className="flex-1 text-center text-black text-sm">
-        © 2026 Devname Surname. All rights reserved.
-      </p>
-      {/* Spacer to keep copyright centred */}
-      <div className="w-7" />
+      <p className="flex-1 text-center text-black text-sm font-medium">{TRANSLATIONS[lang].footer}</p>
+      <div className="w-7" aria-hidden="true" />
     </footer>
   )
 }
 
-// About Section
+// ─── About / Hero Section ─────────────────────────────────────────────────────
 
-function AboutSection() {
+function AboutSection({ lang }) {
+  const t = TRANSLATIONS[lang].about
+  const heroLines = t.heroTitle.split('\n')
+
   return (
-    <section id="about" className="pt-32 pb-20 px-6 max-w-5xl mx-auto">
-      <h2 className="text-white text-5xl font-bold text-center mb-16">About me</h2>
+    <>
+      {/* ── Hero Split ── */}
+      <section
+        id="about"
+        className="flex flex-col md:flex-row min-h-screen pt-[64px]"
+      >
+        {/* Left – blue pane */}
+        <div
+          className="relative flex flex-col justify-between px-8 sm:px-14 py-14 md:w-[58%]"
+          style={{ backgroundColor: BLUE }}
+        >
+          {/* Decorative stair – lower right of blue pane */}
+          <div className="absolute bottom-20 right-8 opacity-30 hidden md:block">
+            <StairShape color={GREEN} size={64} steps={4} direction="down-right" />
+          </div>
 
-      {/* Two-column layout */}
-      <div className="flex flex-col md:flex-row gap-12 items-center">
-        {/* Circular profile image */}
-        <div className="flex-shrink-0">
-          <div
-            className="w-56 h-56 rounded-full overflow-hidden ring-4"
-            style={{ ringColor: GREEN }}
-          >
-            <img
-              src="https://placehold.co/224x224/1a1a1a/ffffff?text=Photo"
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
+          {/* Hero title */}
+          <div className="flex-1 flex flex-col justify-center">
+            <h1
+              className="font-extrabold leading-none mb-6"
+              style={{ color: GREEN, fontSize: 'clamp(3rem, 7vw, 6rem)' }}
+            >
+              {heroLines.map((line, i) => (
+                <span key={i} className="block">{line}</span>
+              ))}
+            </h1>
+            <p className="text-white text-base sm:text-lg max-w-md leading-relaxed">
+              {t.heroSub}
+            </p>
+          </div>
+
+          {/* Bottom stat cols */}
+          <div className="grid grid-cols-2 gap-6 mt-12">
+            <p className="text-white/70 text-xs sm:text-sm leading-relaxed">{t.stat1}</p>
+            <p className="text-white/70 text-xs sm:text-sm leading-relaxed">{t.stat2}</p>
           </div>
         </div>
 
-        {/* Text blocks */}
-        <div className="flex-1 space-y-5 text-white leading-relaxed">
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis iure placeat
-            distinctio mollitia eaque architecto, ipsum alias veniam, ad delectus maxime molestiae
-            laborum recusandae voluptates excepturi perspiciatis quod molestias debitis! Eum,
-            incidunt consequatur corporis perferendis exercitationem nesciunt ab impedit.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum voluptatibus dolores
-            ullam id eius possimus ea. Dolore, magnam libero in alias veritatis earum odit
-            laudantium sed minima temporibus doloribus perferendis.
-          </p>
+        {/* Right – green pane */}
+        <div
+          className="relative flex items-center justify-center overflow-hidden md:w-[42%] min-h-[50vh] md:min-h-0"
+          style={{ backgroundColor: GREEN }}
+        >
+          {/* Dot grid – top area */}
+          <div className="absolute top-8 left-8 opacity-60">
+            <DotGrid cols={8} rows={5} gap={16} r={2.5} color={BLUE} />
+          </div>
+
+          {/* Squiggle – left centre */}
+          <div className="absolute left-6 top-1/2 -translate-y-1/2 opacity-60">
+            <Squiggle color={BLUE} width={44} />
+          </div>
+
+          {/* Stair – lower left */}
+          <div className="absolute bottom-16 left-10 opacity-30">
+            <StairShape color={BLUE} size={56} steps={4} direction="down-right" />
+          </div>
+
+          {/* Right-edge dots + square */}
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3 items-center opacity-50">
+            <div className="w-4 h-4 border-2" style={{ borderColor: BLUE }} />
+            {[0,1,2,3].map(i => (
+              <div key={i} className="w-2 h-2 rotate-45" style={{ backgroundColor: BLUE }} />
+            ))}
+          </div>
+
+          {/* Profile photo with offset white border */}
+          <div className="relative z-10 m-12">
+            <div
+              className="absolute inset-0 border-2 border-white"
+              style={{ transform: 'translate(12px, 12px)' }}
+            />
+            <img
+              src={profileImg}
+              alt="Bernardo Gomes"
+              className="relative block w-52 sm:w-64 md:w-60 lg:w-72 object-cover"
+              style={{ aspectRatio: '3/4' }}
+            />
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Hobbies */}
-      <div className="mt-20">
-        <h3 className="text-white text-4xl font-bold text-center mb-8">Hobbies and interests</h3>
-        <p className="text-white text-center max-w-3xl mx-auto leading-relaxed">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut sequi officiis aliquid facere
-          quidem. Voluptates repudiandae doloribus soluta deleniti eius! Alias, ipsam. Sint earum
-          porro, soluta aliquid explicabo nam quisquam, totam obcaecati omnis voluptas eveniet,
-          saepe neque est error. Numquam minus placeat amet in nisi vel temporibus rerum consequatur
-          nam adipisci nesciunt assumenda, ipsa dolorum!
-        </p>
-      </div>
-    </section>
-  )
-}
+      {/* ── Bio details + hobbies ── */}
+      <section className="py-20 px-6 max-w-5xl mx-auto">
+        <h2 className="font-extrabold text-4xl sm:text-5xl mb-14" style={{ color: GREEN }}>{t.title}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          <p className="text-white leading-relaxed text-sm sm:text-base">{t.bio1}</p>
+          <p className="text-white leading-relaxed text-sm sm:text-base">{t.bio2}</p>
+        </div>
 
-// Projects Section
-
-function ProjectCard({ project }) {
-  return (
-    <div className="flex gap-8 py-8 items-start">
-      {/* Info side */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-3 mb-3">
-          <h3 className="text-white text-xl font-semibold">{project.title}</h3>
-          <a
-            href={project.github}
-            aria-label="GitHub repository"
-            className="ml-auto hover:opacity-60 transition-opacity"
+        <div className="border-t pt-14" style={{ borderColor: 'rgba(163,197,82,0.3)' }}>
+          <h3
+            className="font-extrabold text-3xl sm:text-4xl mb-8"
             style={{ color: GREEN }}
           >
-            <Github size={22} strokeWidth={1.8} />
-          </a>
+            {t.hobbiesTitle}
+          </h3>
+          <p className="text-white/80 max-w-3xl leading-relaxed text-sm sm:text-base">
+            {t.hobbiesText}
+          </p>
         </div>
-
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-black text-xs font-semibold px-4 py-1 rounded-full"
-              style={{ backgroundColor: GREEN }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <p className="text-white leading-relaxed">{project.description}</p>
-      </div>
-
-      {/* Image placeholder */}
-      <div className="flex-shrink-0 w-44 h-36 rounded-2xl border border-gray-600 flex items-center justify-center">
-        <ImageIcon size={44} className="text-gray-600" strokeWidth={1.2} />
-      </div>
-    </div>
+      </section>
+    </>
   )
 }
 
-function ProjectsSection() {
+// ─── Projects Section ─────────────────────────────────────────────────────────
+
+function ProjectsSection({ lang }) {
+  const t = TRANSLATIONS[lang].projects
+  const projects = TRANSLATIONS[lang].projectData
   const [visibleCount, setVisibleCount] = useState(2)
 
-  return (
-    <section id="projects" className="pt-20 pb-16 px-6 max-w-5xl mx-auto">
-      <h2 className="text-white text-5xl font-bold text-center mb-12">My Projects</h2>
+  const visible = projects.slice(0, visibleCount)
 
-      <div>
-        {PROJECTS.slice(0, visibleCount).map((project, i) => (
-          <div key={i}>
-            <ProjectCard project={project} />
-            {i < visibleCount - 1 && <hr className="border-gray-800" />}
+  const grouped = visible.reduce((acc, p) => {
+    if (!acc.length || acc[acc.length - 1].year !== p.year) {
+      acc.push({ year: p.year, items: [p] })
+    } else {
+      acc[acc.length - 1].items.push(p)
+    }
+    return acc
+  }, [])
+
+  return (
+    <section id="projects" className="py-20 px-6 max-w-5xl mx-auto">
+      {/* Section title */}
+      <div className="flex items-center gap-5 mb-14">
+        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: GREEN }}>{t.title}</h2>
+        <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(163,197,82,0.3)' }} />
+      </div>
+
+      {/* Timeline */}
+      <div className="relative pl-16 sm:pl-24">
+        <div
+          className="absolute left-6 sm:left-10 top-0 bottom-0 w-0.5"
+          style={{ backgroundColor: GREEN, opacity: 0.5 }}
+        />
+
+        {grouped.map((group) => (
+          <div key={group.year}>
+            {/* Year marker */}
+            <div className="relative mb-6 flex items-center">
+              <div
+                className="absolute w-4 h-4 rotate-45 z-10"
+                style={{ backgroundColor: GREEN, left: 'calc(-2.5rem - 2px)' }}
+              />
+              <span
+                className="text-xs font-bold px-3 py-0.5 rounded-full"
+                style={{ backgroundColor: GREEN, color: '#000' }}
+              >
+                {group.year}
+              </span>
+            </div>
+
+            <div className="space-y-5 mb-10">
+              {group.items.map((project, i) => (
+                <div key={i} className="relative flex items-start gap-4">
+                  <div
+                    className="absolute w-3 h-3 rounded-full mt-5 z-10"
+                    style={{
+                      backgroundColor: GREEN,
+                      border: `2px solid ${BLUE}`,
+                      left: 'calc(-2.5rem + 1px)',
+                    }}
+                  />
+
+                  {/* Card */}
+                  <div
+                    className="flex-1 flex flex-col sm:flex-row gap-4 rounded-2xl p-5 border transition-all hover:border-opacity-60"
+                    style={{ backgroundColor: 'rgba(35,35,200,0.35)', borderColor: 'rgba(163,197,82,0.25)' }}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
+                        <h3 className="text-white text-lg font-bold">{project.title}</h3>
+                        <span
+                          className="text-xs font-semibold px-2 py-0.5 rounded-full border"
+                          style={{ borderColor: GREEN, color: GREEN }}
+                        >
+                          {project.category}
+                        </span>
+                        <a
+                          href={project.github}
+                          aria-label="GitHub repository"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="ml-auto hover:opacity-60 transition-opacity"
+                          style={{ color: GREEN }}
+                        >
+                          <Github size={20} strokeWidth={1.8} />
+                        </a>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-black text-xs font-semibold px-3 py-0.5 rounded-full"
+                            style={{ backgroundColor: GREEN }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <p className="text-white/70 text-sm leading-relaxed">{project.description}</p>
+                    </div>
+
+                    {/* Image placeholder */}
+                    <div
+                      className="flex-shrink-0 w-full sm:w-36 h-28 rounded-xl flex items-center justify-center border"
+                      style={{ borderColor: 'rgba(163,197,82,0.2)', backgroundColor: 'rgba(35,35,200,0.4)' }}
+                    >
+                      <ImageIcon size={32} strokeWidth={1.2} style={{ color: 'rgba(163,197,82,0.4)' }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
 
-      {visibleCount < PROJECTS.length && (
-        <div className="flex justify-center mt-10">
+      {visibleCount < projects.length && (
+        <div className="flex justify-center mt-6">
           <button
-            onClick={() => setVisibleCount((c) => Math.min(c + 2, PROJECTS.length))}
-            className="text-black font-semibold px-16 py-3 rounded-full hover:opacity-80 transition-opacity"
+            onClick={() => setVisibleCount((c) => Math.min(c + 2, projects.length))}
+            className="font-bold px-12 py-3 rounded-full hover:opacity-80 transition-opacity text-black"
             style={{ backgroundColor: GREEN }}
           >
-            Load more...
+            {t.loadMore}
           </button>
         </div>
       )}
@@ -252,66 +635,63 @@ function ProjectsSection() {
   )
 }
 
-// Experience Section
+// ─── Experience Section ───────────────────────────────────────────────────────
 
-function ExperienceSection() {
+function ExperienceSection({ lang }) {
+  const t = TRANSLATIONS[lang].experience
+  const experiences = TRANSLATIONS[lang].experienceData
+
   return (
-    <section id="experience" className="pt-20 pb-16 px-6 max-w-5xl mx-auto">
-      <h2 className="text-white text-5xl font-bold text-center mb-16">Experience</h2>
+    <section id="experience" className="py-20 px-6 max-w-5xl mx-auto">
+      <div className="flex items-center gap-5 mb-14">
+        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: GREEN }}>{t.title}</h2>
+        <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(163,197,82,0.3)' }} />
+      </div>
 
-      <div className="relative pl-24">
+      <div className="relative pl-16 sm:pl-24">
         {/* Vertical line */}
         <div
-          className="absolute left-16 top-0 bottom-0 w-0.5"
-          style={{ backgroundColor: GREEN }}
+          className="absolute left-6 sm:left-10 top-0 bottom-0 w-0.5"
+          style={{ backgroundColor: GREEN, opacity: 0.5 }}
         />
-        {/* Top T-cap */}
         <div
-          className="absolute top-0 w-5 h-1 rounded-sm"
-          style={{ backgroundColor: GREEN, left: 'calc(4rem - 10px)' }}
+          className="absolute top-0 h-1 w-4 rounded-sm"
+          style={{ backgroundColor: GREEN, left: 'calc(1.5rem - 8px)' }}
         />
-        {/* Bottom T-cap */}
         <div
-          className="absolute bottom-0 w-5 h-1 rounded-sm"
-          style={{ backgroundColor: GREEN, left: 'calc(4rem - 10px)' }}
+          className="absolute bottom-0 h-1 w-4 rounded-sm"
+          style={{ backgroundColor: GREEN, left: 'calc(1.5rem - 8px)' }}
         />
 
         <div className="space-y-10">
-          {EXPERIENCES.map((exp, i) => (
+          {experiences.map((exp, i) => (
             <div key={i} className="relative flex items-start">
-              {/* Circular dot centred on the vertical line.
-                  Container has pl-24 (6rem); line is at left-16 (4rem).
-                  Row `left:0` = 6rem from container, so dot needs offset -2.5rem to
-                  place its centre at exactly 4rem (the line). */}
               <div
                 className="absolute w-4 h-4 rounded-full z-10"
                 style={{
                   backgroundColor: GREEN,
-                  border: '3px solid #000',
-                  left: '-2.5rem',
-                  top: '1.5rem',
-                }}
-              />
-              {/* Horizontal connector from dot right-edge to card */}
-              <div
-                className="absolute"
-                style={{
-                  backgroundColor: GREEN,
-                  left: '-1.5rem',
-                  width: '1.5rem',
-                  height: '2px',
-                  top: 'calc(1.5rem + 0.375rem)',
+                  border: `3px solid ${BLUE}`,
+                  left: 'calc(-2.5rem)',
+                  top: '1.4rem',
                 }}
               />
 
-              {/* Experience card */}
-              <div className="flex-1 rounded-2xl p-6" style={{ backgroundColor: GREEN }}>
-                <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
-                  <h3 className="text-black font-bold text-xl">{exp.company}</h3>
-                  <span className="text-black text-sm">{exp.period}</span>
-                  <span className="text-black text-sm font-semibold">{exp.title}</span>
+              {/* Card */}
+              <div
+                className="flex-1 rounded-2xl p-5 sm:p-6 border"
+                style={{ backgroundColor: GREEN, borderColor: GREEN }}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-3 flex-wrap">
+                  <h3 className="text-black font-extrabold text-lg sm:text-xl">{exp.company}</h3>
+                  <span className="text-black/70 text-xs sm:text-sm">{exp.period}</span>
+                  <span
+                    className="text-xs font-bold px-3 py-0.5 rounded-full self-start"
+                    style={{ backgroundColor: BLUE, color: GREEN }}
+                  >
+                    {exp.title}
+                  </span>
                 </div>
-                <p className="text-black text-sm leading-relaxed">{exp.description}</p>
+                <p className="text-black/80 text-sm leading-relaxed">{exp.description}</p>
               </div>
             </div>
           ))}
@@ -321,132 +701,221 @@ function ExperienceSection() {
   )
 }
 
-// Contact Section
+// ─── Field ───────────────────────────────────────────────────────────────────
 
-function ContactSection() {
+function Field({ id, label, error, children }) {
+  return (
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-white/70 text-xs font-semibold uppercase tracking-wider">
+        {label}
+      </label>
+      <div>
+        {children}
+        {error && <p className="text-red-400 text-xs mt-1 font-semibold">{error}</p>}
+      </div>
+    </div>
+  )
+}
+
+// ─── Contact Section ──────────────────────────────────────────────────────────
+
+function ContactSection({ lang }) {
+  const t = TRANSLATIONS[lang].contact
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [errors, setErrors] = useState({})
+  const [isSending, setIsSending] = useState(false)
+  const [successMsg, setSuccessMsg] = useState('')
 
-  const handleChange = (e) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // TODO: wire up email service
-    alert('Message sent!')
+  const validate = () => {
+    const e = {}
+    if (!form.name.trim())                  e.name    = t.errors.nameRequired
+    if (!form.email.trim())                 e.email   = t.errors.emailRequired
+    else if (!EMAIL_REGEX.test(form.email)) e.email   = t.errors.emailInvalid
+    if (!form.subject.trim())               e.subject = t.errors.subjectRequired
+    if (!form.message.trim())               e.message = t.errors.messageRequired
+    return e
   }
 
-  return (
-    <section id="contacts" className="pt-20 pb-16 px-6 max-w-3xl mx-auto">
-      <h2 className="text-white text-5xl font-bold text-center mb-12">Contact Me</h2>
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    setErrors((prev) => ({ ...prev, [name]: undefined }))
+  }
 
-      {/* Social info card */}
-      <div className="rounded-3xl p-8 mb-8" style={{ backgroundColor: GREEN }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
-          <div className="flex items-center gap-3">
-            <Mail size={22} className="text-black flex-shrink-0" />
-            <span className="text-black text-sm">johnsnow@gmail.com</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Instagram size={22} className="text-black flex-shrink-0" />
-            <span className="text-black text-sm">johnsnow24</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Linkedin size={22} className="text-black flex-shrink-0" />
-            <span className="text-black text-sm">John Snow</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Github size={22} className="text-black flex-shrink-0" />
-            <span className="text-black text-sm">johnsnowdev</span>
-          </div>
-        </div>
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const validationErrors = validate()
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+
+    setIsSending(true)
+    setSuccessMsg('')
+
+    try {
+      const FORMSPREE_ID = 'xdalvlya'
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:    form.name,
+          email:   form.email,
+          subject: form.subject,
+          message: form.message,
+        }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data?.error || `HTTP ${res.status}`)
+      }
+
+      setSuccessMsg(lang === 'en' ? 'Message sent successfully!' : 'Mensagem enviada com sucesso!')
+      setForm({ name: '', email: '', subject: '', message: '' })
+    } catch (err) {
+      setErrors({
+        submit:
+          lang === 'en'
+            ? `Something went wrong: ${err.message}. Try again.`
+            : `Algo deu errado: ${err.message}. Tente novamente.`,
+      })
+    } finally {
+      setIsSending(false)
+    }
+  }
+
+  const inputCls =
+    'w-full rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:ring-2 border transition-colors'
+  const inputStyle = { backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(163,197,82,0.3)' }
+
+  return (
+    <section id="contacts" className="py-20 px-6 max-w-5xl mx-auto">
+      <div className="flex items-center gap-5 mb-14">
+        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: GREEN }}>{t.title}</h2>
+        <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(163,197,82,0.3)' }} />
       </div>
 
-      {/* Description */}
-      <p className="text-white text-center leading-relaxed mb-8">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt deleniti corporis nam.
-        Quasi odit animi illo harum dolorum magni nesciunt quas! Ipsum veritatis totam ad.
-      </p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {/* Left column: description + social links */}
+        <div className="flex flex-col gap-8">
+          <p className="text-white/80 leading-relaxed text-base">{t.description}</p>
 
-      {/* Contact form */}
-      <div className="rounded-3xl p-8" style={{ backgroundColor: GREEN }}>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Name + Email row */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <label className="flex items-center gap-3 flex-1">
-              <span className="text-black font-medium w-14 flex-shrink-0">Name</span>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                className="flex-1 rounded-full bg-gray-200 px-4 py-2 text-black text-sm outline-none focus:ring-2"
-                style={{ '--tw-ring-color': '#000' }}
-              />
-            </label>
-            <label className="flex items-center gap-3 flex-1">
-              <span className="text-black font-medium w-14 flex-shrink-0">Email</span>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                className="flex-1 rounded-full bg-gray-200 px-4 py-2 text-black text-sm outline-none"
-              />
-            </label>
+          <div className="flex flex-col gap-4">
+            {[
+              { Icon: Mail,      text: 'be.gpereira25@gmail.com',    href: 'mailto:be.gpereira25@gmail.com' },
+              { Icon: Instagram, text: '__bernardogomes',             href: 'https://instagram.com/__bernardogomes' },
+              { Icon: Linkedin,  text: 'Bernardo Gomes',              href: 'https://www.linkedin.com/in/bernardogomespereira/' },
+              { Icon: Github,    text: 'bernardogomes25',             href: 'https://github.com/bernardogomes25' },
+            ].map(({ Icon, text, href }) => (
+              <a
+                key={text}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 hover:opacity-70 transition-opacity group"
+                style={{ color: GREEN }}
+              >
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: 'rgba(163,197,82,0.15)' }}
+                >
+                  <Icon size={18} strokeWidth={1.8} />
+                </div>
+                <span className="text-sm text-white group-hover:opacity-70 transition-opacity">{text}</span>
+              </a>
+            ))}
           </div>
+        </div>
 
-          {/* Subject */}
-          <label className="flex items-center gap-3">
-            <span className="text-black font-medium w-14 flex-shrink-0">Subject</span>
-            <input
-              type="text"
-              name="subject"
-              value={form.subject}
-              onChange={handleChange}
-              className="flex-1 rounded-full bg-gray-200 px-4 py-2 text-black text-sm outline-none"
-            />
-          </label>
+        {/* Right column: form */}
+        <div
+          className="rounded-2xl p-6 sm:p-8 border"
+          style={{ backgroundColor: 'rgba(35,35,200,0.3)', borderColor: 'rgba(163,197,82,0.2)' }}
+        >
+          <form onSubmit={handleSubmit} noValidate className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <Field id="name" label={t.name} error={errors.name}>
+                <input
+                  id="name" type="text" name="name"
+                  value={form.name} onChange={handleChange}
+                  className={inputCls} style={inputStyle}
+                />
+              </Field>
+              <Field id="email" label={t.email} error={errors.email}>
+                <input
+                  id="email" type="email" name="email"
+                  value={form.email} onChange={handleChange}
+                  className={inputCls} style={inputStyle}
+                />
+              </Field>
+            </div>
 
-          {/* Message */}
-          <label className="flex items-start gap-3">
-            <span className="text-black font-medium w-14 flex-shrink-0 pt-2">Message</span>
-            <textarea
-              name="message"
-              value={form.message}
-              onChange={handleChange}
-              rows={5}
-              className="flex-1 rounded-2xl bg-gray-200 px-4 py-3 text-black text-sm outline-none resize-none"
-            />
-          </label>
+            <Field id="subject" label={t.subject} error={errors.subject}>
+              <input
+                id="subject" type="text" name="subject"
+                value={form.subject} onChange={handleChange}
+                className={inputCls} style={inputStyle}
+              />
+            </Field>
 
-          {/* Send button */}
-          <div className="flex justify-center pt-2">
-            <button
-              type="submit"
-              className="bg-gray-800 text-white font-semibold px-20 py-3 rounded-full hover:bg-gray-700 transition-colors"
-            >
-              Send
-            </button>
-          </div>
-        </form>
+            <Field id="message" label={t.message} error={errors.message}>
+              <textarea
+                id="message" name="message"
+                value={form.message} onChange={handleChange}
+                rows={5}
+                className={`${inputCls} rounded-xl resize-none`}
+                style={inputStyle}
+              />
+            </Field>
+
+            {errors.submit && (
+              <p className="text-red-400 text-sm font-semibold text-center">{errors.submit}</p>
+            )}
+            {successMsg && (
+              <p className="font-semibold text-sm text-center" style={{ color: GREEN }}>{successMsg}</p>
+            )}
+
+            <div className="flex justify-end pt-1">
+              <button
+                type="submit"
+                disabled={isSending}
+                className="flex items-center gap-2 font-bold px-10 py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed text-black"
+                style={{ backgroundColor: GREEN }}
+              >
+                {isSending && <Loader2 size={16} className="animate-spin" />}
+                {isSending ? t.sending : t.send}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   )
 }
 
-// Root App
+// ─── Root App ─────────────────────────────────────────────────────────────────
 
 export default function App() {
+  const [lang, setLang] = useState('en')
+  const toggleLang = () => setLang((l) => (l === 'en' ? 'pt' : 'en'))
+
   return (
-    <div className="min-h-screen bg-black text-white" style={gridBg}>
-      <Navbar />
+    <div className="min-h-screen text-white" style={{ backgroundColor: BLUE }}>
+      <Navbar lang={lang} onToggleLang={toggleLang} />
       <main>
-        <AboutSection />
-        <ProjectsSection />
-        <ExperienceSection />
-        <ContactSection />
+        <AboutSection lang={lang} />
+        <div style={{ borderTop: '1px solid rgba(163,197,82,0.15)' }}>
+          <ProjectsSection lang={lang} />
+        </div>
+        <div style={{ borderTop: '1px solid rgba(163,197,82,0.15)' }}>
+          <ExperienceSection lang={lang} />
+        </div>
+        <div style={{ borderTop: '1px solid rgba(163,197,82,0.15)' }}>
+          <ContactSection lang={lang} />
+        </div>
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </div>
   )
 }
