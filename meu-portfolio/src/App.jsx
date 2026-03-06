@@ -149,54 +149,34 @@ const TRANSLATIONS = {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-// ─── Hook de Repositórios GitHub ────────────────────────────────────────────
+// ─── Repositórios Estáticos ──────────────────────────────────────────────────
 
-function langToCategory(language) {
-  const map = {
-    C: 'Systems', 'C++': 'Systems', Assembly: 'Systems', Rust: 'Systems',
-    'C#': 'Backend', Java: 'Backend', Kotlin: 'Backend',
-    Python: 'Backend', Go: 'Backend', Ruby: 'Backend', PHP: 'Backend',
-    JavaScript: 'Frontend', TypeScript: 'Frontend',
-    HTML: 'Frontend', CSS: 'Frontend', Vue: 'Frontend', Svelte: 'Frontend',
-    Swift: 'Mobile', Dart: 'Mobile',
-  }
-  return map[language] ?? (language ?? 'Other')
-}
-
-function useGithubRepos(username) {
-  const [repos, setRepos] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    fetch(
-      `https://api.github.com/users/${username}/repos?type=public&sort=updated&per_page=100`,
-      { headers: { Accept: 'application/vnd.github+json' } }
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error(`GitHub API ${res.status}`)
-        return res.json()
-      })
-      .then((data) => {
-        const mapped = data.map((r) => ({
-          title: r.name.replace(/[-_]/g, ' '),
-          year: new Date(r.pushed_at).getFullYear().toString(),
-          category: langToCategory(r.language),
-          tags: r.topics?.length ? r.topics : r.language ? [r.language] : [],
-          description: r.description ?? '',
-          github: r.html_url,
-        }))
-        setRepos(mapped)
-        setLoading(false)
-      })
-      .catch((err) => {
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [username])
-
-  return { repos, loading, error }
-}
+const STATIC_REPOS = [
+  {
+    title: 'GerenciamentoDeTarefas',
+    year: '2024',
+    category: 'Frontend',
+    tags: ['JavaScript'],
+    description: 'Projeto de software visando contribuir com a organização e gerenciamento de tarefas no dia a dia.',
+    github: 'https://github.com/bernardogomes25/GerenciamentoDeTarefas',
+  },
+  {
+    title: 'HotelManagement',
+    year: '2024',
+    category: 'Systems',
+    tags: ['C'],
+    description: 'Software de gestão para hotéis. Trabalho interdisciplinar das disciplinas de Algoritmos e Estruturas de Dados I e Fundamentos da Engenharia de Software.',
+    github: 'https://github.com/bernardogomes25/HotelManagement',
+  },
+  {
+    title: 'GerenciamentoDeAeroporto',
+    year: '2024',
+    category: 'Backend',
+    tags: ['Java'],
+    description: 'Este projeto é um sistema de gestão para uma agência de viagens, permitindo o cadastro de funcionários, companhias aéreas, aeroportos e passagens aéreas. O sistema também possibilita a compra de passagens e a emissão de bilhetes para viajantes. Desenvolvido em Java, o projeto segue o paradigma da Programação Orientada a Objetos (POO).',
+    github: 'https://github.com/bernardogomes25/GerenciamentoDeAeroporto',
+  },
+]
 
 // ─── Fundo Spline ───────────────────────────────────────────────────────────
 
@@ -559,12 +539,8 @@ function AboutSection({ lang, scrollY }) {
 
 function ProjectsSection({ lang }) {
   const t = TRANSLATIONS[lang].projects
-  const { repos, loading, error } = useGithubRepos('bernardogomes25')
-  const [visibleCount, setVisibleCount] = useState(6)
 
-  const visible = repos.slice(0, visibleCount)
-
-  const grouped = visible.reduce((acc, p) => {
+  const grouped = STATIC_REPOS.reduce((acc, p) => {
     if (!acc.length || acc[acc.length - 1].year !== p.year) {
       acc.push({ year: p.year, items: [p] })
     } else {
@@ -580,18 +556,7 @@ function ProjectsSection({ lang }) {
         <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(163,197,82,0.3)' }} />
       </div>
 
-      {loading && (
-        <div className="flex justify-center items-center py-20">
-          <Loader2 size={36} className="animate-spin" style={{ color: GREEN }} />
-        </div>
-      )}
-
-      {error && (
-        <p className="text-red-400 text-sm text-center py-10">Failed to load repositories: {error}</p>
-      )}
-
-      {!loading && !error && (
-        <div className="relative pl-16 sm:pl-24">
+      <div className="relative pl-16 sm:pl-24">
           <div
             className="absolute left-6 sm:left-10 top-0 bottom-0 w-0.5"
             style={{ backgroundColor: GREEN, opacity: 0.5 }}
@@ -677,20 +642,7 @@ function ProjectsSection({ lang }) {
               </div>
             </div>
           ))}
-        </div>
-      )}
-
-      {!loading && !error && visibleCount < repos.length && (
-        <div className="flex justify-center mt-6">
-          <button
-            onClick={() => setVisibleCount((c) => Math.min(c + 6, repos.length))}
-            className="font-bold px-12 py-3 rounded-full hover:opacity-80 transition-opacity text-black"
-            style={{ backgroundColor: GREEN }}
-          >
-            {t.loadMore}
-          </button>
-        </div>
-      )}
+      </div>
     </section>
   )
 }

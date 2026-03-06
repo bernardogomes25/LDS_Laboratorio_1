@@ -89,12 +89,16 @@ npm run dev
 
 ```
 .
+├── public/              # 📁 Arquivos estáticos públicos.
 ├── src/
 │   ├── assets/          # 🖼️ Imagens e ícones.
-│   ├── components/      # 🧱 Componentes (Navbar, Card, Timeline).
+│   │   └── img/         # 📸 Imagens do portfólio.
+│   ├── App.css          # 🎨 Estilos globais do componente App.
 │   ├── App.jsx          # 📘 Componente principal e estrutura de seções.
 │   ├── index.css        # 🎨 Configuração do Tailwind v4 e variáveis de tema.
 │   └── main.jsx         # 🔌 Ponto de entrada do React.
+├── index.html           # 🌐 HTML raiz da aplicação.
+├── eslint.config.js     # 🔍 Configuração do ESLint.
 ├── vite.config.js       # ⚙️ Configuração do Vite com plugin Tailwind.
 └── package.json         # 📦 Scripts e dependências.
 
