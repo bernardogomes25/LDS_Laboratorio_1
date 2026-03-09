@@ -1,5 +1,11 @@
 # 🏷️ Portfolio Pessoal - Bernardo 👨‍💻
 
+## 🌐 Acesso ao Site
+
+> **[https://portfolio-bernardo-gomes.vercel.app/](https://portfolio-bernardo-gomes.vercel.app/)**
+
+---
+
 > [!NOTE]
 > Website de portfólio pessoal moderno e responsivo, desenvolvido para apresentar projetos e trajetória profissional. 
 
