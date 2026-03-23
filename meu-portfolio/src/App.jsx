@@ -19,8 +19,8 @@ import {
 
 // ─── Constantes ─────────────────────────────────────────────────────────────
 
-const GREEN = '#E8E8E8'
-const BLUE  = '#2A2A2A'
+const WHITE = '#E8E8E8'
+const BLACK  = '#2A2A2A'
 
 // ─── Traduções ──────────────────────────────────────────────────────────────
 
@@ -413,7 +413,7 @@ function Navbar({ lang, onToggleLang }) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: 'rgba(27,27,27,0.75)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
       <div className="flex items-center justify-between px-6 sm:px-10 py-4">
-        <a href="#about" className="font-extrabold text-xl tracking-tight select-none" style={{ color: GREEN }}>
+        <a href="#about" className="font-extrabold text-xl tracking-tight select-none" style={{ color: WHITE }}>
           Bernardo Gomes
         </a>
 
@@ -437,9 +437,9 @@ function Navbar({ lang, onToggleLang }) {
           <button
             onClick={onToggleLang}
             className="font-bold text-xs border-2 rounded-full px-3 py-1 transition-colors"
-            style={{ borderColor: GREEN, color: GREEN }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = GREEN; e.currentTarget.style.color = '#000' }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = GREEN }}
+            style={{ borderColor: WHITE, color: WHITE }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = '#000' }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = WHITE }}
             aria-label="Toggle language"
           >
             {lang === 'en' ? 'PT' : 'EN'}
@@ -496,7 +496,7 @@ function Navbar({ lang, onToggleLang }) {
 
 function Footer({ lang }) {
   return (
-    <footer className="flex items-center px-10 py-6" style={{ backgroundColor: GREEN }}>
+    <footer className="flex items-center px-10 py-6" style={{ backgroundColor: WHITE }}>
       <a
         href="https://github.com/bernardogomes25"
         aria-label="GitHub"
@@ -531,13 +531,13 @@ function AboutSection({ lang }) {
           style={{ backgroundColor: 'rgba(27,27,27,0.65)', backdropFilter: 'blur(2px)', WebkitBackdropFilter: 'blur(2px)' }}
         >
           <div className="absolute bottom-20 right-8 opacity-30 hidden md:block">
-            <StairShape color={GREEN} size={64} steps={4} direction="down-right" />
+            <StairShape color={WHITE} size={64} steps={4} direction="down-right" />
           </div>
 
           <div className="flex-1 flex flex-col justify-center">
             <h1
               className="font-extrabold leading-none mb-6"
-              style={{ color: GREEN, fontSize: 'clamp(3rem, 7vw, 6rem)' }}
+              style={{ color: WHITE, fontSize: 'clamp(3rem, 7vw, 6rem)' }}
             >
               {heroLines.map((line, i) => (
                 <span key={i} className="block"><T speed={45}>{line}</T></span>
@@ -557,31 +557,31 @@ function AboutSection({ lang }) {
         {/* Painel direito – verde */}
         <div
           className="relative flex items-center justify-center overflow-hidden md:w-[42%] min-h-[50vh] md:min-h-0"
-          style={{ backgroundColor: GREEN }}
+          style={{ backgroundColor: WHITE }}
         >
           <div className="absolute top-8 left-8 opacity-60">
-            <DotGrid cols={8} rows={5} gap={16} r={2.5} color={BLUE} />
+            <DotGrid cols={8} rows={5} gap={16} r={2.5} color={BLACK} />
           </div>
 
           <div className="absolute left-6 top-1/2 opacity-60">
-            <Squiggle color={BLUE} width={44} />
+            <Squiggle color={BLACK} width={44} />
           </div>
 
           <div className="absolute bottom-16 left-10 opacity-30">
-            <StairShape color={BLUE} size={56} steps={4} direction="down-right" />
+            <StairShape color={BLACK} size={56} steps={4} direction="down-right" />
           </div>
 
           <div className="absolute right-6 top-1/2 flex flex-col gap-3 items-center opacity-50">
-            <div className="w-4 h-4 border-2" style={{ borderColor: BLUE }} />
+            <div className="w-4 h-4 border-2" style={{ borderColor: BLACK }} />
             {[0,1,2,3].map(i => (
-              <div key={i} className="w-2 h-2 rotate-45" style={{ backgroundColor: BLUE }} />
+              <div key={i} className="w-2 h-2 rotate-45" style={{ backgroundColor: BLACK }} />
             ))}
           </div>
 
           <div className="relative z-10 m-12">
             <div
               className="absolute inset-0 border-2"
-              style={{ transform: 'translate(12px, 12px)', borderColor: BLUE }}
+              style={{ transform: 'translate(12px, 12px)', borderColor: BLACK }}
             />
             <img
               src={profileImg}
@@ -594,7 +594,7 @@ function AboutSection({ lang }) {
       </section>
 
       <section className="py-20 px-6 max-w-5xl mx-auto">
-        <h2 className="font-extrabold text-4xl sm:text-5xl mb-14" style={{ color: GREEN }}><T speed={35}>{t.title}</T></h2>
+        <h2 className="font-extrabold text-4xl sm:text-5xl mb-14" style={{ color: WHITE }}><T speed={35}>{t.title}</T></h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
           <p className="text-white leading-relaxed text-sm sm:text-base"><T speed={4}>{t.bio1}</T></p>
           <p className="text-white leading-relaxed text-sm sm:text-base"><T speed={4}>{t.bio2}</T></p>
@@ -603,7 +603,7 @@ function AboutSection({ lang }) {
         <div className="border-t pt-14" style={{ borderColor: 'rgba(232,232,232,0.12)' }}>
           <h3
             className="font-extrabold text-3xl sm:text-4xl mb-8"
-            style={{ color: GREEN }}
+            style={{ color: WHITE }}
           >
             <T speed={35}>{t.hobbiesTitle}</T>
           </h3>
@@ -633,14 +633,14 @@ function ProjectsSection({ lang }) {
   return (
     <section id="projects" className="py-20 px-6 max-w-5xl mx-auto">
       <div className="flex items-center gap-5 mb-14">
-        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: GREEN }}><T speed={35}>{t.title}</T></h2>
+        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: WHITE }}><T speed={35}>{t.title}</T></h2>
         <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(232,232,232,0.15)' }} />
       </div>
 
       <div className="relative pl-16 sm:pl-24">
           <div
             className="absolute left-6 sm:left-10 top-0 bottom-0 w-0.5"
-            style={{ backgroundColor: GREEN, opacity: 0.5 }}
+            style={{ backgroundColor: WHITE, opacity: 0.5 }}
           />
 
           {grouped.map((group) => (
@@ -648,11 +648,11 @@ function ProjectsSection({ lang }) {
               <div className="relative mb-6 flex items-center">
                 <div
                   className="absolute w-4 h-4 rotate-45 z-10"
-                  style={{ backgroundColor: GREEN, left: 'calc(-2.5rem - 2px)' }}
+                  style={{ backgroundColor: WHITE, left: 'calc(-2.5rem - 2px)' }}
                 />
                 <span
                   className="text-xs font-bold px-3 py-0.5 rounded-full"
-                  style={{ backgroundColor: GREEN, color: '#000' }}
+                  style={{ backgroundColor: WHITE, color: '#000' }}
                 >
                   {group.year}
                 </span>
@@ -664,8 +664,8 @@ function ProjectsSection({ lang }) {
                     <div
                       className="absolute w-3 h-3 rounded-full mt-5 z-10"
                       style={{
-                        backgroundColor: GREEN,
-                        border: `2px solid ${BLUE}`,
+                        backgroundColor: WHITE,
+                        border: `2px solid ${BLACK}`,
                         left: 'calc(-2.5rem + 1px)',
                       }}
                     />
@@ -679,7 +679,7 @@ function ProjectsSection({ lang }) {
                           <h3 className="text-white text-lg font-bold">{project.title}</h3>
                           <span
                             className="text-xs font-semibold px-2 py-0.5 rounded-full border"
-                            style={{ borderColor: GREEN, color: GREEN }}
+                            style={{ borderColor: WHITE, color: WHITE }}
                           >
                             {project.category}
                           </span>
@@ -689,7 +689,7 @@ function ProjectsSection({ lang }) {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="ml-auto hover:opacity-60 transition-opacity"
-                            style={{ color: GREEN }}
+                            style={{ color: WHITE }}
                           >
                             <Github size={20} strokeWidth={1.8} />
                           </a>
@@ -700,7 +700,7 @@ function ProjectsSection({ lang }) {
                             <span
                               key={tag}
                               className="text-black text-xs font-semibold px-3 py-0.5 rounded-full"
-                              style={{ backgroundColor: GREEN }}
+                              style={{ backgroundColor: WHITE }}
                             >
                               {tag}
                             </span>
@@ -741,22 +741,22 @@ function ExperienceSection({ lang }) {
   return (
     <section id="experience" className="py-20 px-6 max-w-5xl mx-auto">
       <div className="flex items-center gap-5 mb-14">
-        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: GREEN }}><T speed={35}>{t.title}</T></h2>
+        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: WHITE }}><T speed={35}>{t.title}</T></h2>
         <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(232,232,232,0.15)' }} />
       </div>
 
       <div className="relative pl-16 sm:pl-24">
         <div
           className="absolute left-6 sm:left-10 top-0 bottom-0 w-0.5"
-          style={{ backgroundColor: GREEN, opacity: 0.5 }}
+          style={{ backgroundColor: WHITE, opacity: 0.5 }}
         />
         <div
           className="absolute top-0 h-1 w-4 rounded-sm"
-          style={{ backgroundColor: GREEN, left: 'calc(1.5rem - 8px)' }}
+          style={{ backgroundColor: WHITE, left: 'calc(1.5rem - 8px)' }}
         />
         <div
           className="absolute bottom-0 h-1 w-4 rounded-sm"
-          style={{ backgroundColor: GREEN, left: 'calc(1.5rem - 8px)' }}
+          style={{ backgroundColor: WHITE, left: 'calc(1.5rem - 8px)' }}
         />
 
         <div className="space-y-10">
@@ -765,8 +765,8 @@ function ExperienceSection({ lang }) {
               <div
                 className="absolute w-4 h-4 rounded-full z-10"
                 style={{
-                  backgroundColor: GREEN,
-                  border: `3px solid ${BLUE}`,
+                  backgroundColor: WHITE,
+                  border: `3px solid ${BLACK}`,
                   left: 'calc(-2.5rem)',
                   top: '1.4rem',
                 }}
@@ -774,14 +774,14 @@ function ExperienceSection({ lang }) {
 
               <div
                 className="flex-1 rounded-2xl p-5 sm:p-6 border"
-                style={{ backgroundColor: GREEN, borderColor: GREEN }}
+                style={{ backgroundColor: WHITE, borderColor: WHITE }}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-3 flex-wrap">
                   <h3 className="text-black font-extrabold text-lg sm:text-xl">{exp.company}</h3>
                   <span className="text-black/70 text-xs sm:text-sm"><T speed={28}>{exp.period}</T></span>
                   <span
                     className="text-xs font-bold px-3 py-0.5 rounded-full self-start"
-                    style={{ backgroundColor: BLUE, color: GREEN }}
+                    style={{ backgroundColor: BLACK, color: WHITE }}
                   >
                     <T speed={22}>{exp.title}</T>
                   </span>
@@ -887,7 +887,7 @@ function ContactSection({ lang }) {
   return (
     <section id="contacts" className="py-20 px-6 max-w-5xl mx-auto">
       <div className="flex items-center gap-5 mb-14">
-        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: GREEN }}><T speed={35}>{t.title}</T></h2>
+        <h2 className="font-extrabold text-4xl sm:text-5xl" style={{ color: WHITE }}><T speed={35}>{t.title}</T></h2>
         <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(232,232,232,0.15)' }} />
       </div>
 
@@ -909,7 +909,7 @@ function ContactSection({ lang }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 hover:opacity-70 transition-opacity group"
-                style={{ color: GREEN }}
+                style={{ color: WHITE }}
               >
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -968,7 +968,7 @@ function ContactSection({ lang }) {
               <p className="text-red-400 text-sm font-semibold text-center">{errors.submit}</p>
             )}
             {successMsg && (
-              <p className="font-semibold text-sm text-center" style={{ color: GREEN }}>{successMsg}</p>
+              <p className="font-semibold text-sm text-center" style={{ color: WHITE }}>{successMsg}</p>
             )}
 
             <div className="flex justify-end pt-1">
@@ -976,7 +976,7 @@ function ContactSection({ lang }) {
                 type="submit"
                 disabled={isSending}
                 className="flex items-center gap-2 font-bold px-10 py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed text-black"
-                style={{ backgroundColor: GREEN }}
+                style={{ backgroundColor: WHITE }}
               >
                 {isSending && <Loader2 size={16} className="animate-spin" />}
                 {isSending ? t.sending : t.send}
