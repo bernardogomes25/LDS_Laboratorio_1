@@ -215,7 +215,6 @@ const STATIC_REPOS = [
 
 // ─── Scroll Parallax ─────────────────────────────────────────────────────────
 
-// depth layers: FAR (small/dim/blurred/slow), MID, NEAR (large/vivid/sharp/fast+glow)
 const PARALLAX_ITEMS = [
   // ── FAR ──────────────────────────────────────────────────────────────────
   { text: 'void',   left:  '5%', top:  '8%', speed:  0.10, opacity: 0.12, size: '0.70rem', blur: 2   },
