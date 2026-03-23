@@ -108,15 +108,10 @@ O deploy foi realizado via **[Vercel](https://vercel.com/)**, com integração c
 ```
 .
 ├── public/
-│   └── vite.svg                      # 🖼️ Favicon padrão do Vite.
+│   └── dev.svg                      # 🖼️ Favicon do Site.
 ├── src/
 │   ├── assets/
 │   │   └── img/                      # 📸 Imagens e GIFs do portfólio.
-│   │       ├── GerenciamentoAeroporto.gif
-│   │       ├── GerenciamentoDeTarefas.gif
-│   │       ├── HotelManagement.gif
-│   │       └── pfp.JPEG
-│   ├── App.css                       # 🎨 Estilos globais do componente App.
 │   ├── App.jsx                       # 📘 Componente principal e estrutura de seções.
 │   ├── index.css                     # 🎨 Configuração do Tailwind v4 e variáveis de tema.
 │   └── main.jsx                      # 🔌 Ponto de entrada do React.
