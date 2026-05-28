@@ -34,29 +34,36 @@ Este projeto consiste em um <b>portfólio pessoal</b> desenvolvido durante o Lab
 
 <img width="512" height="287" alt="image" src="https://github.com/user-attachments/assets/ae659203-2e3d-4fb9-8180-4945e2a512f9" />
 
-
 </div>
 
 ---
 
 ## 🛠 Tecnologias Utilizadas
 
-### 💻 Front-end
+| Tecnologia | Versão | Propósito |
+|---|---|---|
+| React | 19.2.0 | Framework UI |
+| Vite | 6.3.5 | Build tool & dev server |
+| Tailwind CSS | 4.2.0 | Estilização |
+| Lucide React | 0.575.0 | Ícones |
+| ESLint | 9.39.1 | Qualidade de código |
+| Node.js | 22.x LTS | Runtime |
 
-* **Framework:** React v19
-* **Build Tool:** Vite v6
-* **Estilização:** Tailwind CSS v4 (Alpha/Latest)
-* **Ícones:** Lucide React
-* **Linguagem:** JavaScript ES6+
+**Deploy:** Vercel (auto-deploy ao fazer push para main)
 
 ---
 
 ## 🏗 Arquitetura
 
-A aplicação segue uma arquitetura de **Single Page Application (SPA)** focada em componentes funcionais e hooks do React.
+A aplicação segue uma arquitetura de **Single Page Application (SPA)** com code splitting e lazy loading.
 
-* **Layout:** Estrutura baseada em Grid e Flexbox do Tailwind para garantir responsividade pixel-perfect.
-* **Componentização:** Divisão lógica entre Header (Navbar), Hero (About), Projects, Experience (Timeline) e Contact.
+* **Padrão:** SPA com seções lazy-loaded e separação de chunks
+  - **Eager-loaded:** Navbar, AboutSection, Footer (acima da dobra)
+  - **Lazy-loaded:** ProjectsSection, ExperienceSection, ContactSection (abaixo da dobra)
+* **Code Splitting:** 3 chunks separados via React.lazy + Suspense
+* **Tema:** Dark mode (bg: #1f1f1f, text: #e8e8f0) + acentos em verde esmeralda (#10b981)
+* **Roteamento:** Hash-based (Vercel redireciona todas as rotas para index.html)
+* **Otimização de Imagens:** Formato WebP (96.9% menor que GIFs originais)
 
 ---
 
@@ -76,60 +83,106 @@ cd meu-portfolio
 
 # Instale as dependências
 npm install
-
 ```
 
 ### ⚡ Como Executar a Aplicação
 
 ```bash
-# Terminal: Inicie o servidor de desenvolvimento
-npm run dev
-
+npm run dev       # Dev server em http://localhost:5173
 ```
 
-🎨 *O Front-end estará disponível em **http://localhost:5173**.*
+**Comandos disponíveis:**
+
+```bash
+npm run build     # Build de produção → dist/
+npm run preview   # Preview da produção localmente (porta 4173)
+npm run lint      # ESLint check
+npm run lint -- --fix  # Corrigir issues de linting
+```
 
 ---
 
-## � Deploy
+## 🚀 Deploy
 
-O deploy foi realizado via **[Vercel](https://vercel.com/)**, com integração contínua ao repositório GitHub. A cada push na branch principal, um novo deploy é acionado automaticamente.
+O deploy é automático via **[Vercel](https://vercel.com/)** com integração contínua ao repositório GitHub. A cada push na branch main, um novo deploy é acionado.
 
 * **URL de Produção:** [https://portfolio-bernardo-gomes.vercel.app/](https://portfolio-bernardo-gomes.vercel.app/)
 * **Plataforma:** Vercel
 * **Build Command:** `npm run build`
 * **Output Directory:** `dist`
-* **Configuração:** `vercel.json` — define rewrites para suporte ao roteamento SPA (todas as rotas redirecionam para `index.html`).
+* **Configuração:** `vercel.json` — define rewrites para suporte ao roteamento SPA
 
 ---
 
-## �📂 Estrutura de Pastas
+## 📂 Estrutura de Pastas
 
 ```
-.
+meu-portfolio/
 ├── public/
-│   └── dev.svg                      # 🖼️ Favicon do Site.
+│   └── dev.svg                        # Favicon do site
 ├── src/
-│   ├── assets/
-│   │   └── img/                      # 📸 Imagens e GIFs do portfólio.
-│   ├── App.jsx                       # 📘 Componente principal e estrutura de seções.
-│   ├── index.css                     # 🎨 Configuração do Tailwind v4 e variáveis de tema.
-│   └── main.jsx                      # 🔌 Ponto de entrada do React.
-├── index.html                        # 🌐 HTML raiz da aplicação.
-├── eslint.config.js                  # 🔍 Configuração do ESLint.
-├── vercel.json                       # ☁️ Configuração de deploy e rewrites para a Vercel.
-├── vite.config.js                    # ⚙️ Configuração do Vite com plugin Tailwind.
-└── package.json                      # 📦 Scripts e dependências.
-
+│   ├── assets/img/                    # Imagens otimizadas (WebP)
+│   ├── components/
+│   │   ├── shared/
+│   │   │   ├── DotGrid.jsx
+│   │   │   ├── StairShape.jsx
+│   │   │   ├── Squiggle.jsx
+│   │   │   ├── ScrollParallax.jsx
+│   │   │   ├── TypewriterText.jsx
+│   │   │   ├── Badge.jsx              # Badge reutilizável (variantes)
+│   │   │   └── FormInput.jsx          # Input com validação
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   ├── AboutSection.jsx
+│   │   ├── ProjectsSection/
+│   │   │   └── ProjectsSection.jsx    # Lazy loaded
+│   │   ├── ExperienceSection/
+│   │   │   └── ExperienceSection.jsx  # Lazy loaded
+│   │   └── ContactSection/
+│   │       └── ContactSection.jsx     # Lazy loaded
+│   ├── hooks/
+│   │   ├── useTypewriter.js           # Efeito typewriter
+│   │   └── useContactForm.js          # Gerenciamento do formulário
+│   ├── data/
+│   │   ├── projects.js                # Lista de projetos
+│   │   └── parallax.js                # Dados de parallax
+│   ├── i18n/
+│   │   └── translations.js            # Traduções EN/PT
+│   ├── constants/
+│   │   └── colors.js                  # Paleta de cores
+│   ├── App.jsx                        # Layout principal (~35 linhas)
+│   ├── index.css                      # Tailwind v4 + variáveis CSS
+│   └── main.jsx                       # Ponto de entrada do React
+├── index.html                         # HTML raiz
+├── package.json                       # Dependências & scripts
+├── vite.config.js                     # Configuração do Vite
+├── vercel.json                        # Configuração de deploy (SPA routing)
+└── eslint.config.js                   # Configuração do ESLint
 ```
+
+---
+
+## ⚙️ Notas de Desenvolvimento
+
+- **HMR ativado** — Alterações em .jsx/.css atualizam automaticamente no navegador
+- **Tailwind v4** — Configuração CSS-first, sem tailwind.config.js separado
+- **Code Splitting** — ProjectsSection, ExperienceSection, ContactSection são lazy-loaded
+- **Otimização de Imagens** — Todas as imagens convertidas para WebP (redução de 96.9%)
+- **Componentes Reutilizáveis** — Badge e FormInput disponíveis em `src/components/shared/`
+- **Linting** — ESLint com plugin React enforça:
+  - `no-unused-vars` — Detecta imports/variáveis não utilizadas (padrão: `^_`)
+  - `no-console` — Avisa sobre `console.log` (permite `warn`/`error`)
+  - `prefer-const` — Sugere `const` sobre `let`
+  - Regras React: `jsx-uses-vars`, regras customizadas para React 19+
+- **Suporte a Navegadores** — Chrome 90+, Firefox 88+, Safari 14+, todos os browsers mobile modernos
 
 ---
 
 ## 👥 Autores
 
-| 👤 Nome | :octocat: GitHub | 💼 LinkedIn |
+| 👤 Nome | GitHub | LinkedIn |
 | --- | --- | --- |
-| Bernardo Gomes| [GitHub](https://www.google.com/search?q=https://github.com/bernardogomes25) | [LinkedIn](https://www.google.com/search?q=https://linkedin.com/in/bernardogomespereira) |
+| Bernardo Gomes | [GitHub](https://github.com/bernardogomes25) | [LinkedIn](https://linkedin.com/in/bernardogomespereira) |
 
 ---
 
