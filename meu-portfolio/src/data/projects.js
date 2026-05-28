@@ -1,6 +1,6 @@
-import tarefasGif from '../assets/img/GerenciamentoDeTarefas.gif'
-import hotelGif from '../assets/img/HotelManagement.gif'
-import aeroportoGif from '../assets/img/GerenciamentoAeroporto.gif'
+import tarefasGif from '../assets/img/GerenciamentoDeTarefas.webp'
+import hotelGif from '../assets/img/HotelManagement.webp'
+import aeroportoGif from '../assets/img/GerenciamentoAeroporto.webp'
 
 export const STATIC_REPOS = [
   {

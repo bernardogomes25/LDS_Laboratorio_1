@@ -1,11 +1,16 @@
-import { useState } from 'react'
+import { useState, Suspense, lazy } from 'react'
 import { ScrollParallax } from './components/shared/ScrollParallax'
 import { Navbar } from './components/Navbar'
 import { AboutSection } from './components/AboutSection'
-import { ProjectsSection } from './components/ProjectsSection/ProjectsSection'
-import { ExperienceSection } from './components/ExperienceSection/ExperienceSection'
-import { ContactSection } from './components/ContactSection/ContactSection'
 import { Footer } from './components/Footer'
+
+const ProjectsSection = lazy(() => import('./components/ProjectsSection/ProjectsSection'))
+const ExperienceSection = lazy(() => import('./components/ExperienceSection/ExperienceSection'))
+const ContactSection = lazy(() => import('./components/ContactSection/ContactSection'))
+
+function SectionFallback() {
+  return <div className="min-h-96" />
+}
 
 export default function App() {
   const [lang, setLang] = useState('en')
@@ -19,13 +24,19 @@ export default function App() {
         <main>
           <AboutSection lang={lang} />
           <div style={{ borderTop: '1px solid rgba(232,232,232,0.08)' }}>
-            <ProjectsSection lang={lang} />
+            <Suspense fallback={<SectionFallback />}>
+              <ProjectsSection lang={lang} />
+            </Suspense>
           </div>
           <div style={{ borderTop: '1px solid rgba(232,232,232,0.08)' }}>
-            <ExperienceSection lang={lang} />
+            <Suspense fallback={<SectionFallback />}>
+              <ExperienceSection lang={lang} />
+            </Suspense>
           </div>
           <div style={{ borderTop: '1px solid rgba(232,232,232,0.08)' }}>
-            <ContactSection lang={lang} />
+            <Suspense fallback={<SectionFallback />}>
+              <ContactSection lang={lang} />
+            </Suspense>
           </div>
         </main>
         <Footer lang={lang} />

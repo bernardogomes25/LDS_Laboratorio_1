@@ -4,7 +4,7 @@ import { TRANSLATIONS } from '../../i18n/translations'
 const WHITE = '#E8E8E8'
 const BLACK = '#2A2A2A'
 
-export function ExperienceSection({ lang }) {
+export default function ExperienceSection({ lang }) {
   const t = TRANSLATIONS[lang].experience
   const experiences = TRANSLATIONS[lang].experienceData
 

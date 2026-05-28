@@ -6,7 +6,7 @@ import { TRANSLATIONS } from '../../i18n/translations'
 const WHITE = '#E8E8E8'
 const BLACK = '#2A2A2A'
 
-export function ProjectsSection({ lang }) {
+export default function ProjectsSection({ lang }) {
   const t = TRANSLATIONS[lang].projects
 
   const grouped = STATIC_REPOS.reduce((acc, p) => {

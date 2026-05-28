@@ -19,7 +19,7 @@ function Field({ id, label, error, children }) {
   )
 }
 
-export function ContactSection({ lang }) {
+export default function ContactSection({ lang }) {
   const t = TRANSLATIONS[lang].contact
   const { form, errors, isSending, successMsg, handleChange, handleSubmit } = useContactForm(t.errors)
 
