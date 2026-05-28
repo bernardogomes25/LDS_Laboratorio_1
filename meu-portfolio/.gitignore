@@ -1,3 +1,19 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+.nyc_output
+.jest-cache
+
+# Production
+/build
+/dist
+/dist-ssr
+*.local
+
 # Logs
 logs
 *.log
@@ -6,19 +22,76 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.turbo
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+!.vscode/settings.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
+Thumbs.db
+
+# IDE & Editors
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+.netbeans
+nbproject/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDEs - JetBrains
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.iml
+out/
+
+# Vercel
+.vercel/
+
+# Cache
+.cache/
+.eslintcache
+.stylelintcache
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.pdb
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Misc
+.vscode-test
+launch.json
